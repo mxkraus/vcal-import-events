@@ -65,17 +65,21 @@
     ini_set('display_startup_errors', 1);
     error_reporting(E_ALL);
 
-    $year_last = date("Y") - 1;
-    $year_now = date("Y");
-    $year_next = date("Y") + 1;
-
+    /**
+     * Handle URL
+     * 
+     */
+    $year = $_GET['year']; // get from url
+    $url = "https://www.vereinskartell-stoernstein.de/index.php/kalenderexport/year.listevents/" . $year;
     $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, "https://www.vereinskartell-stoernstein.de/index.php/kalenderexport/year.listevents/" . $year_now);
+
+    curl_setopt($ch, CURLOPT_URL, $url);
     curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
     curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
     curl_setopt($ch, CURLOPT_USERAGENT, $_SERVER['HTTP_USER_AGENT']);
+
     $response = curl_exec( $ch );
     $info = curl_getinfo($ch);
     if( false === $response ){ echo 'Curl-Fehler: ' . curl_error($ch); }
